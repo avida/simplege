@@ -22,7 +22,8 @@
                             "G:/libs/freeglut/include",
                             "G:/MinGW/lib/gcc/mingw32/5.3.0/include/c++",
                             "g:/libs/boost_1_62_0",
-                            "G:/libs/glew-1.10.0/include"],
+                            "G:/libs/glew-1.10.0/include",
+                            "G:/libs/gmtl"],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""

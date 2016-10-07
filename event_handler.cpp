@@ -4,10 +4,15 @@
 #include <GL/freeglut.h>
 #include <iostream>
 
+#include "model_factory.hpp"
+
 void EventHandler::OnRender()
 {
     glClear(GL_DEPTH_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    auto& factory = ModelFactory::get_instance();
+    factory.RenderModels();
     glutSwapBuffers();
 }
 

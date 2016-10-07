@@ -1,5 +1,6 @@
 #include "opengl_application.hpp"
 
+#include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
@@ -9,14 +10,18 @@ Application::Application(int& argc, char ** argv)
 {
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
-   
-   glewInit();
+   glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 }
 
 void Application::CreateGLWindow(int h, int w, const std::string& title)
 {
     glutInitWindowSize(h, w);
     glutCreateWindow(title.c_str());
+    auto res = glewInit();
+    if (res != GLEW_OK)
+    {
+        std::cout << "Error: " << glewGetErrorString(res) << std::endl;
+    }
 }
 
 void Application::Render()
