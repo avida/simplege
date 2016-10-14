@@ -1,16 +1,18 @@
 #include <iostream>
 #include <string>
+#include <cstdio>
 
-#include <boost/foreach.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "camera.hpp"
 #include "opengl_application.hpp"
 #include "event_handler.hpp"
-#include "model_factory.hpp"
+#include "model_factory_manager.hpp"
 #include "shader_factory.hpp"
 
 #include "utils/utils.hpp"
+#include "utils/logger.hpp"
 
 const int WINDOW_HEIGHT = 200;
 const int WINDOW_WIDTH = 300;
@@ -18,18 +20,24 @@ const int WINDOW_WIDTH = 300;
 const std::string vertexShaderFilePath = "../shaders/shader.vs";
 const std::string fragmentShaderFilePath = "../shaders/shader.fs";
 
-using namespace std;
-
 int main(int argc, char** argv)
 {
-    cout <<"Hello" << endl;
+    gl::Log("Hello");
     Application app(argc, argv);
     app.CreateGLWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Cool app");
-    auto handler = boost::make_shared<EventHandler>();
-    app.SetHandler(handler);
     auto& shader_fact = ShaderFactory::get_instance();
     shader_fact.LoadShaders(vertexShaderFilePath, fragmentShaderFilePath);
+
+    auto& camera = Camera::GetGlobalCamera();
+    camera.SetProjectionParameters(gmtl::Math::deg2Rad(30.0f), WINDOW_WIDTH, WINDOW_HEIGHT, 1, 100);
+
+    auto factory = ModelFactoryManager::get_instance().SetupFactory("sample", "model.obj");
+    auto handler = boost::make_shared<EventHandler>();
+    app.SetHandler(handler);
+
+    auto model = factory->CreateModel();
+    model->SetPosition(0, 0, 15);
     app.Run();
-    cout <<"Bye" << endl;
+    gl::Log("Bye");
     return 0;
 }

@@ -29,7 +29,20 @@ void ShaderFactory::LoadShaders(const std::string& vert_shader_fname,
         glGetProgramInfoLog(m_shader_program, sizeof(ErrorLog), NULL, ErrorLog);
         gl::LogFatal(boost::format("Invalid shader program: %1%") % ErrorLog );
     }
+}
 
+GLuint ShaderFactory::GetUniformLocation(const std::string& var_name)
+{
+    auto uniformLocation = glGetUniformLocation(m_shader_program, var_name.c_str());
+    if (uniformLocation == 0xFFFFFFFF)
+    {
+        gl::LogFatal(boost::format("Cannot bind %1% variable") % var_name);
+    }
+    return uniformLocation;
+}
+
+void ShaderFactory::UseShader()
+{
     glUseProgram(m_shader_program);
 }
 

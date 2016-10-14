@@ -14,6 +14,6 @@ public:
 private:
     void InitHandler();
     static void Render();
-    static void KeyboardCB(unsigned char Key, int x, int y);
+    static void KeyboardCB(unsigned char key, int x, int y);
     static IHandlerPtr m_handler;    
 };

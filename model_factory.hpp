@@ -4,28 +4,23 @@
 #include <list>
 
 #include "model.hpp"
-#include "generic/singleton.hpp"
-
 
 class ModelFactory;
 
-typedef std::unique_ptr<ModelFactory> ModelFactoryPtr;
+typedef boost::shared_ptr<ModelFactory> ModelFactoryPtr;
 typedef std::list<ModelPtr> ModelList; 
 
-class ModelFactory : public generic::singleton<ModelFactory>
+class ModelFactory
 {
-friend generic::singleton<ModelFactory>;
 public:
     ModelPtr CreateModel();
     void UtilizeModel(const ModelPtr& model);
     void RenderModels();
-protected:
-    ModelFactory();
-    void init_instance();
+    ModelFactory(const std::string& fileName);
 private:
-    void SetupFactory();
+    void LoadModel(const std::string& fileName);
     ModelList m_models;
-    GLuint m_VBO;
-    GLuint m_IBO;
+    GLuint m_VBO = 0;
+    GLuint m_IBO = 0;
     unsigned int m_indices;
 };

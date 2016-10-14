@@ -4,27 +4,69 @@
 #include <GL/freeglut.h>
 #include <iostream>
 
-#include "model_factory.hpp"
+#include "utils/logger.hpp"
+#include "utils/utils.hpp"
+
+#define ROT_STEP 5.f
+EventHandler::EventHandler()
+{
+    m_model = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
+    m_model->SetScale(.5f, 1.f,1.f);
+    m_model->SetPosition(0.f,1.f,10.f);
+}
 
 void EventHandler::OnRender()
 {
     glClear(GL_DEPTH_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    auto& factory = ModelFactory::get_instance();
-    factory.RenderModels();
+    ModelFactoryManager::get_instance().FactoriesRender();
     glutSwapBuffers();
 }
 
 void EventHandler::OnKeyboard(unsigned char key, int x, int y)
 {
-    std::cout << (int) key <<" x:" << x  << " " << y << std::endl;
+    gl::Log(boost::format("key: %1% x:%2% y: %3%") % (int)key % x % y);
+    auto pos = m_model->GetPosition();
     switch(key)
     {
         case 27:
-            exit(0);
+            gl::LogFatal("Esc pressed");
+            break;
+        case 'a':
+        case 'A':
+            if (!m_model) break;
+            angle += ROT_STEP;
+            // pos[0] -= .1f;
+            // m_model->SetScale(.5f, 2.f,0);
+            break;
+        case 'd':
+        case 'D':
+            if (!m_model) break;
+            angle -= ROT_STEP;
+            // pos[0] += .1f;
+            // m_model->SetScale(.5f, 2.f,0);
+            // m_model->SetPosition(-.5f,0.f,0);
+            break;
+        case 's':
+        case 'S':
+            pos[1] -= .1f;
+            angle_z += ROT_STEP;
+            break;
+        case 'w':
+        case 'W':
+                angle_z -= ROT_STEP;
+                pos[1] += .1f;
+            break;
+        case 'x':
+        case 'X':
+
+            // ModelFactory::get_instance().UtilizeModel(m_model);
+            m_model = nullptr;
             break;
         default:
             break;
     }
+    m_model->SetPosition(pos[0], pos[1], pos[2]);
+    m_model->SetRotation(0.f,gmtl::Math::deg2Rad(angle_z), gmtl::Math::deg2Rad(angle));
+    gl::Log(boost::format("angle: %1%") % angle);
 }

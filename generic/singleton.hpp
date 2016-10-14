@@ -19,7 +19,7 @@ public:
         } 
         return *m_instance; 
     }
-    static destroy_instance() { m_instance = 0; };
+    static void destroy_instance() { m_instance = 0; };
 protected:
     virtual void init_instance() = 0;
     virtual ~singleton(){}
