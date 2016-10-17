@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.7)
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 include_directories(".",
+                    "./3rdParty/gmtl",
                     "G:/libs/glew-1.10.0/include", 
                     "G:/libs/freeglut/include", 
                     "g:/libs/boost_1_62_0",
