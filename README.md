@@ -51,4 +51,43 @@ ADD_DEFINITIONS(-DASSIMP_BUILD_NO_IFC_IMPORTER)
 ADD_DEFINITIONS(-DASSIMP_BUILD_NO_M3_IMPORTER)
 ADD_DEFINITIONS(-DASSIMP_BUILD_NO_XGL_IMPORTER)
 
+--------------------------------------------------------
+To build freeglut use this make file. I took it from freeglut' readme and fixed:
+---- Makefile ---------
+#Makefile for Freeglut 3.0.0-rc and Cygwin
+#To place in the directory 'src/Common'
 
+sources=$(wildcard *.c)
+win_src=$(wildcard mswin/*.c)
+util_src=$(wildcard util/*.c)
+win_src_objs=$(patsubst %.c, %.o, $(win_src))
+objs=$(patsubst %.c, %.o, $(sources)) $(win_src_objs) util/xparsegeometry_repl.o
+
+libname=freeglut
+
+
+CFLAGS=-Os -DTARGET_HOST_MS_WINDOWS -DX_DISPLAY_MISSING -DFREEGLUT_STATIC -I. -DNEED_XPARSEGEOMETRY_IMPL -s
+LDFLAGS=-lopengl32 -lgdi32 -lwinmm
+
+nocyg=
+
+all: $(objs)
+	#construction DLL related to cygwin1.dll
+	echo "objs: "$(objs)
+	gcc $(nocyg) $(objs) -shared $(LDFLAGS) -o $(libname).dll
+	nm $(libname).dll  | awk 'BEGIN { print "EXPORTS" } /T _glut/ {sub( /^.*T _/, "\t"); print}' > $(libname).def
+	dlltool --dllname $(libname).dll --input-def $(libname).def --output-lib lib$(libname)dll.a
+
+	#construction static library independent of cygwin
+	ar cr lib$(libname).a $(objs)
+	#pas inevitably obligatory (creation of an index to accelerate the accesses)
+	ranlib lib$(libname).a
+
+%.o: %.c
+	echo $(win_src)
+	exit
+	gcc $(nocyg) -c $(CFLAGS) $<
+
+clean:
+	rm -f *.o $(libname).dll $(libname).def lib$(libname)dll.a lib$(libname).a
+---- End Makefile ---------
