@@ -91,3 +91,8 @@ all: $(objs)
 clean:
 	rm -f *.o $(libname).dll $(libname).def lib$(libname)dll.a lib$(libname).a
 ---- End Makefile ---------
+
+---------------- To build boost:
+
+
+

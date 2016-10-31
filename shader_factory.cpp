@@ -2,6 +2,7 @@
 #include "utils/logger.hpp"
 #include "utils/utils.hpp"
 #include <boost/format.hpp>
+#include "generic/make_unique.hpp"
 
 void ShaderFactory::LoadShaders(const std::string& vert_shader_fname, 
                                const std::string& frag_shader_fname)
@@ -16,11 +17,11 @@ void ShaderFactory::LoadShaders(const std::string& vert_shader_fname,
 
     glLinkProgram(m_shader_program);
     glGetProgramiv(m_shader_program, GL_LINK_STATUS, &Success);
-	if (!Success) 
+    if (!Success) 
     {
-		glGetProgramInfoLog(m_shader_program, sizeof(ErrorLog), NULL, ErrorLog);
+        glGetProgramInfoLog(m_shader_program, sizeof(ErrorLog), NULL, ErrorLog);
         gl::LogFatal(boost::format("Error linking shader program: %1%") % ErrorLog ); 
-	}
+    }
 
     glValidateProgram(m_shader_program);
     glGetProgramiv(m_shader_program, GL_VALIDATE_STATUS, &Success);
@@ -29,6 +30,7 @@ void ShaderFactory::LoadShaders(const std::string& vert_shader_fname,
         glGetProgramInfoLog(m_shader_program, sizeof(ErrorLog), NULL, ErrorLog);
         gl::LogFatal(boost::format("Invalid shader program: %1%") % ErrorLog );
     }
+    m_lighting = gl::make_unique<Lighting>();
 }
 
 GLuint ShaderFactory::GetUniformLocation(const std::string& var_name)

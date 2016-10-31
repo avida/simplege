@@ -21,6 +21,7 @@ public:
     void Render();
 protected:
     GLuint m_gWVP;
+    GLuint m_gWorld;
     gmtl::Vec3f m_scale = {1, 1, 1};
     gmtl::Vec3f m_trans;
     gmtl::EulerAngleXYZf m_rot;
