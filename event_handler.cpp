@@ -59,9 +59,6 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
         case 'x':
         case 'X':
-
-            // ModelFactory::get_instance().UtilizeModel(m_model);
-            m_model = nullptr;
             break;
         default:
             break;
