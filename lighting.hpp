@@ -1,8 +1,8 @@
 #pragma once
 
-#include <gmtl/gmtl.h>
-#include <GL/glew.h>
+#include <math_3d.hpp>
 #include <memory>
+#include <GL/glew.h>
 
 class Lighting
 {
@@ -17,7 +17,7 @@ void SetDiffuseIntensity(float intens) { m_diffuse_intens = intens; }
 
 void ApplyLight();
 protected: 
-gmtl::Vec3f m_ambient_color;
+Vector3f m_ambient_color;
 float m_ambint_intens;
 
 struct {
@@ -27,7 +27,7 @@ struct {
     GLuint direction;
 } m_lighting;
 
-gmtl::Vec3f m_diffuse_direction;
+Vector3f m_diffuse_direction;
 float m_diffuse_intens;
 };
 

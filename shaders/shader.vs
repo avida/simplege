@@ -8,7 +8,7 @@ out vec4 pos;
 out vec3 Normal0;
 void main()
 {
-    gl_Position = transpose(WVP) * vec4(Position, 1.0);
+    gl_Position = WVP * vec4(Position, 1.0);
     pos = vec4(Position, 1.0);
-    Normal0 = (transpose(gWorld) * vec4(Normal, 0)).xyz;
+    Normal0 = (gWorld * vec4(Normal, 0)).xyz;
 }

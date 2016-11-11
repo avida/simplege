@@ -15,19 +15,15 @@ void Camera::SetDirection(float x, float y, float z){};
 // Projection
 void Camera::SetProjectionParameters(float angle, float width,  float height, float nearZ, float farZ)
 {
-   auto ar = width / height;
-   auto tanA = tanf(angle/2);
-   gl::Log(ar);
-   gl::Log((float)tanA);
-   m_projection_matrix[0][0] = 1 / (tanA * ar);
-   m_projection_matrix[1][1] = 1 / tanA;
-   m_projection_matrix[2][2] = (-nearZ - farZ) / (nearZ - farZ);
-   m_projection_matrix[2][3] = 2 * farZ * nearZ / (nearZ - farZ);
-   m_projection_matrix[3][2] = 1;
-   m_projection_matrix[3][3] = 0;
-   gl::Log(2 * farZ * nearZ / (nearZ - farZ));
-   gl::Log(m_projection_matrix);
+   PersProjInfo projection_info;
+   projection_info.FOV = angle;
+   projection_info.Width = width;
+   projection_info.Height = height;
+   projection_info.zNear = nearZ;
+   projection_info.zFar = farZ;
+   m_projection_matrix.InitPersProjTransform(projection_info);
 }
+
 void Camera::SetViewAngle(float angle)
 {
 

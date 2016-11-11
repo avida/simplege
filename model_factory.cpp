@@ -2,7 +2,7 @@
 #include "model.hpp"
 #include "utils/logger.hpp"
 #include <boost/make_shared.hpp>
-#include <gmtl/gmtl.h>
+#include <math_3d.hpp>
 #include <memory>
 
 // #include <assimp/cimport.h>        // Plain-C interface
@@ -18,8 +18,8 @@ ModelFactory::ModelFactory(const std::string& fileName)
 
 struct Vertex 
 {
-  gmtl::Vec3f pos;
-  gmtl::Vec3f norm;
+  Vector3f pos;
+  Vector3f norm;
 };
 
 void ModelFactory::LoadModel(const std::string& fname)
@@ -43,12 +43,12 @@ void ModelFactory::LoadModel(const std::string& fname)
       {
           const aiVector3D* pPos = &(mesh->mVertices[i]);
           const aiVector3D* pNormal = &(mesh->mNormals[i]);
-          vertexes[i].pos[0] = pPos->x;
-          vertexes[i].pos[1] = pPos->y;
-          vertexes[i].pos[2] = pPos->z;
-          vertexes[i].norm[0] = pNormal->x;
-          vertexes[i].norm[1] = pNormal->y;
-          vertexes[i].norm[2] = pNormal->z;
+          vertexes[i].pos.x = pPos->x;
+          vertexes[i].pos.y = pPos->y;
+          vertexes[i].pos.z = pPos->z;
+          vertexes[i].norm.x = pNormal->x;
+          vertexes[i].norm.y = pNormal->y;
+          vertexes[i].norm.z = pNormal->z;
           // gl::Log(boost::format("x: %1% y: %2% z: %3%") % pNormal->x % pNormal->y% pNormal->z  ); 
       }
       glGenBuffers(1, &m_VBO);
@@ -105,7 +105,7 @@ void ModelFactory::RenderModels()
                           sizeof(Vertex) /* number of bytes between two instances of that 
                                          attribute in the bufferstride */,
                           0 /* attribute offset inside structure */);
-    glVertexAttribPointer(1, 3 ,GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)sizeof(gmtl::Vec3f));
+    glVertexAttribPointer(1, 3 ,GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)sizeof(Vector3f));
     for(auto model:m_models)
     {
       model->Render();

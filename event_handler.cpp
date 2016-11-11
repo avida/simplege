@@ -26,7 +26,7 @@ void EventHandler::OnRender()
 void EventHandler::OnKeyboard(unsigned char key, int x, int y)
 {
     gl::Log(boost::format("key: %1% x:%2% y: %3%") % (int)key % x % y);
-    auto pos = m_model->GetPosition();
+    Vector3f pos = m_model->GetPosition();
     switch(key)
     {
         case 27:
@@ -49,13 +49,13 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
         case 's':
         case 'S':
-            pos[1] -= .1f;
+            pos.y -= .1f;
             angle_z += ROT_STEP;
             break;
         case 'w':
         case 'W':
                 angle_z -= ROT_STEP;
-                pos[1] += .1f;
+                pos.y += .1f;
             break;
         case 'x':
         case 'X':
@@ -63,7 +63,7 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
         default:
             break;
     }
-    m_model->SetPosition(pos[0], pos[1], pos[2]);
-    m_model->SetRotation(0.f,gmtl::Math::deg2Rad(angle_z), gmtl::Math::deg2Rad(angle));
+    m_model->SetPosition(pos.x, pos.y, pos.z);
+    m_model->SetRotation(0.f,angle_z, angle);
     gl::Log(boost::format("angle: %1%") % angle);
 }

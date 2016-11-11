@@ -5,7 +5,6 @@ SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 include_directories(".",
                     "./3rdParty/ogl",
-                    "./3rdParty/gmtl",
                     "${LIBS_DIR}/glew/include", 
                     "${LIBS_DIR}/freeglut/include", 
                     "${LIBS_DIR}/boost",
@@ -28,7 +27,6 @@ add_executable(simplegl
                         shader_factory.cpp
                         utils/utils.cpp
                         utils/logger.cpp
-                        utils/math.cpp
                         ./3rdParty/ogl/math_3d.cpp  
                         model.cpp
                         camera.cpp

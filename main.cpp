@@ -13,7 +13,6 @@
 
 #include "utils/utils.hpp"
 #include "utils/logger.hpp"
-#include "utils/math.hpp"
 
 
 const int WINDOW_HEIGHT = 200;
@@ -30,7 +29,7 @@ int main(int argc, char** argv)
     shader_fact.LoadShaders(vertexShaderFilePath, fragmentShaderFilePath);
 
     auto& camera = Camera::GetGlobalCamera();
-    camera.SetProjectionParameters(gmtl::Math::deg2Rad(30.0f), WINDOW_WIDTH, WINDOW_HEIGHT, 1, 100);
+    camera.SetProjectionParameters(30.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 100);
 
     auto factory = ModelFactoryManager::get_instance().SetupFactory("sample", "model.obj");
     auto handler = boost::make_shared<EventHandler>();
