@@ -13,6 +13,8 @@
 
 #include "utils/utils.hpp"
 #include "utils/logger.hpp"
+#include "utils/math.hpp"
+
 
 const int WINDOW_HEIGHT = 200;
 const int WINDOW_WIDTH = 300;
@@ -22,9 +24,8 @@ const std::string fragmentShaderFilePath = "../shaders/shader.fs";
 
 int main(int argc, char** argv)
 {
-    gl::Log("Hello");
     Application app(argc, argv);
-    app.CreateGLWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Cool app");
+    app.CreateGLWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "simplegl");
     auto& shader_fact = ShaderFactory::get_instance();
     shader_fact.LoadShaders(vertexShaderFilePath, fragmentShaderFilePath);
 
