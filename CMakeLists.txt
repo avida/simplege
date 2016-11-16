@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
-set (LIBS_DIR d:/libs)
+set (LIBS_DIR g:/libs)
 
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 include_directories(".",
                     "./3rdParty/ogl",
@@ -13,8 +13,7 @@ include_directories(".",
 
 link_directories("${LIBS_DIR}/freeglut/src",
                  "${LIBS_DIR}/glew/lib",
-                 "${LIBS_DIR}/boost/bin.v2/libs/system/",
-                 "${LIBS_DIR}/boost/bin.v2/libs/filesystem/",
+                 "${LIBS_DIR}/boost/stage/lib",
                  "${LIBS_DIR}/assimp/build/code",
                  "${LIBS_DIR}/png")
 
