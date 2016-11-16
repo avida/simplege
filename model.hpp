@@ -23,8 +23,8 @@ protected:
     GLuint m_gWVP;
     GLuint m_gWorld;
     Vector3f m_scale = {1, 1, 1};
-    Vector3f m_trans;
-    Vector3f m_rot;
+    Vector3f m_trans = {};
+    Vector3f m_rot = {};
 };
 
 typedef boost::shared_ptr<Model> ModelPtr; 

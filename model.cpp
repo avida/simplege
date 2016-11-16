@@ -7,6 +7,9 @@ Model::Model()
    auto& shader_fact = ShaderFactory::get_instance();
    m_gWVP = shader_fact.GetUniformLocation("WVP");
    m_gWorld = shader_fact.GetUniformLocation("gWorld");
+   m_trans = {0,0,0};
+   m_rot = {0,0,0};
+   m_scale = {1,1,1};
 }
 
 void Model::SetPosition(float x, float y, float z)
@@ -50,15 +53,15 @@ void Model::Render()
    auto& camera = Camera::GetGlobalCamera();
    auto& shader_fact = ShaderFactory::get_instance();
 
-   Matrix4f rotate;
+   Matrix4f rotate, scale, translate, camera_rotate;
+   camera_rotate.InitCameraTransform(camera.GetTarget(), camera.GetUp());
+
    rotate.InitRotateTransform(m_rot);
-   Matrix4f scale;
    scale.InitScaleTransform(m_scale);
-   Matrix4f translate;
    translate.InitTranslationTransform(m_trans);
    auto m = translate *  rotate * scale;
-   auto mvp = camera.GetProjectionMatrix() *  m;
-   glUniformMatrix4fv(m_gWorld, 1, GL_TRUE, &m .m[0][0]);
+   auto mvp = camera.GetProjectionMatrix() *  camera_rotate * camera.GetTranslationMatrix() *  m;
+   glUniformMatrix4fv(m_gWorld, 1, GL_TRUE, &m.m[0][0]);
    glUniformMatrix4fv(m_gWVP, 1, GL_TRUE, &mvp.m[0][0]);
    shader_fact.GetLightingModel().ApplyLight();
 

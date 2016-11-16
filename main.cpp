@@ -34,13 +34,12 @@ int main(int argc, char** argv)
     auto factory = ModelFactoryManager::get_instance().SetupFactory("sample", "model.obj");
     auto handler = boost::make_shared<EventHandler>();
     app.SetHandler(handler);
-
     auto model = factory->CreateModel();
-    model->SetPosition(0, 0, 15);
+    model->SetPosition(0, 0, 10);
     //Lighting
     auto& lighting = shader_fact.GetLightingModel();
     lighting.SetAmbientColor(0.1, 1, 1);
-    lighting.SetAmbientIntensity(.0);
+    lighting.SetAmbientIntensity(.1);
     lighting.SetDiffuseIntensity(.8);
     lighting.SetDirection(1, 0, 0);
     app.Run();
