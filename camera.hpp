@@ -12,6 +12,8 @@ class Camera
       const Vector3f& GetUp() { return m_up; }
       const Vector3f& GetTarget() { return m_target; }
       const Vector3f& GetPosition() { return m_pos; }
+      float GetVAngle() { return m_angleV; }
+      float GetHAngle() { return m_angleH; }
 
       // Projection
       void SetProjectionParameters(float angle, float height,  float width, float nearZ, float farZ);

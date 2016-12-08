@@ -4,17 +4,18 @@
 #include <GL/freeglut.h>
 #include <iostream>
 
-#include "camera.hpp"
 #include "utils/logger.hpp"
 #include "utils/utils.hpp"
 
 #define ROT_STEP 5.f
+#define CAMERA_ROT_STEP 0.05f
 const int kCameraStep = 1;
-EventHandler::EventHandler()
+
+EventHandler::EventHandler():m_camera(Camera::GetGlobalCamera())
 {
     m_model = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
-    //m_model->SetScale(.5f, 1.f,1.f);
-    m_model->SetPosition(0, 0, 2);
+    m_model->SetScale(.5f, 1.f,1.f);
+    m_model->SetPosition(0, 0, 0);
     // auto m2 = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
     // m2->SetPosition(5.f,10,15.f);
 }
@@ -27,12 +28,34 @@ void EventHandler::OnRender()
     glutSwapBuffers();
 }
 
+void EventHandler::OnMouseButton(int button, int state, int x, int y)
+{
+    // gl::Log(boost::format("mousebtn %1%, state %2%: x: %3% y:%4%") % button % state % x % y);
+    m_pressed = state==0;
+}
+
+void EventHandler::OnMouseMove(int x, int y)
+{
+    auto new_pos = Vector2i(x, y);
+    auto delta = m_prev_mouse_pos - new_pos;
+    m_prev_mouse_pos = new_pos;
+    if (!m_pressed) return;
+    auto h_angle = m_camera.GetHAngle();
+    auto v_angle = m_camera.GetVAngle();
+    gl::Log(boost::format("mouse: dx: %1% dy:%2%") % delta.x % delta.y);
+
+    m_camera.SetRotation(v_angle - CAMERA_ROT_STEP * delta.y, 
+                         h_angle - CAMERA_ROT_STEP * delta.x);
+    h_angle = m_camera.GetHAngle();
+    v_angle = m_camera.GetVAngle();
+    gl::Log(boost::format("rotation v: %1% h:%2%") % v_angle % h_angle);
+}
+
 void EventHandler::OnKeyboard(unsigned char key, int x, int y)
 {
     gl::Log(boost::format("key: %1% x:%2% y: %3%") % (int)key % x % y);
     Vector3f pos = m_model->GetPosition();
-    auto& camera = Camera::GetGlobalCamera();
-    auto camera_pos = camera.GetPosition();
+    auto camera_pos = m_camera.GetPosition();
     switch(key)
     {
         case 27:
@@ -68,25 +91,25 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
         case 'f':
         case 'F':
-            camera_pos.x -= kCameraStep;
+            camera_pos.z += kCameraStep;
             break;
         case 'h':
         case 'H':
-            camera_pos.x += kCameraStep;
+            camera_pos.z -= kCameraStep;
             break;
         case 'g':
         case 'G':
-            camera_pos.z -= kCameraStep;
+            camera_pos.x -= kCameraStep;
             break;
         case 't':
         case 'T':
-            camera_pos.z += kCameraStep;
+            camera_pos.x += kCameraStep;
             break;
         default:
             break;
     }
     m_model->SetPosition(pos.x, pos.y, pos.z);
     m_model->SetRotation(0.f,angle_z, angle);
-    camera.SetPosition(camera_pos);
+    m_camera.SetPosition(camera_pos);
     gl::Log(boost::format("pos: %1% %2% %3% \n camera_pos: %4% %5% %6%") % pos.x % pos.y % pos.z % camera_pos.x % camera_pos.y % camera_pos.z);
 }

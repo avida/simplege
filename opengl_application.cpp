@@ -35,11 +35,24 @@ void Application::KeyboardCB(unsigned char key, int x, int y)
     m_handler->OnKeyboard(key, x, y);
 }
 
+void Application::MouseMoveCB(int x, int y)
+{
+    m_handler->OnMouseMove(x, y);
+}
+
+void Application::MouseButtonCB(int button, int state, int x, int y)
+{
+    m_handler->OnMouseButton(button, state, x, y);   
+}
+
 void Application::InitHandler()
 {
     glutDisplayFunc(Render);
     glutIdleFunc(Render);
     glutKeyboardFunc(KeyboardCB);
+    glutPassiveMotionFunc(MouseMoveCB);
+    glutMotionFunc(MouseMoveCB);
+    glutMouseFunc(MouseButtonCB);
 }
 
 void Application::Run()

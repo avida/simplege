@@ -30,8 +30,15 @@ inline float ToDegree(float x) { return (float)(((x) * 180.0f / pi)); }
 
 struct Vector2i
 {
+    Vector2i(){}
+
+    Vector2i(int _x, int _y) : x(_x),y(_y) {}
     int x;
     int y;
+    Vector2i operator-(const Vector2i& other)
+    {
+        return Vector2i(x-other.x, y-other.y);
+    }
 };
 
 struct Vector2f

@@ -15,5 +15,7 @@ private:
     void InitHandler();
     static void Render();
     static void KeyboardCB(unsigned char key, int x, int y);
+    static void MouseMoveCB(int x, int y);
+    static void MouseButtonCB(int button, int state, int x, int y);
     static IHandlerPtr m_handler;    
 };
