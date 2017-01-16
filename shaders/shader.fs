@@ -12,7 +12,7 @@ struct DirectionalLight
     vec3 Direction;
 };
  
-uniform DirectionalLight gDirectionalLight;   
+uniform DirectionalLight gDirectionalLight;
 
 void main()
 {

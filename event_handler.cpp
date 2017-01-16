@@ -8,10 +8,10 @@
 #include "utils/utils.hpp"
 
 #define ROT_STEP 5.f
-#define CAMERA_ROT_STEP 0.05f
+#define CAMERA_ROT_STEP 0.1f
 const int kCameraStep = 1;
 
-EventHandler::EventHandler():m_camera(Camera::GetGlobalCamera())
+EventHandler::EventHandler():m_camera(Camera::GetGlobalCamera()), m_pressed(false)
 {
     m_model = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
     m_model->SetScale(.5f, 1.f,1.f);
@@ -42,13 +42,13 @@ void EventHandler::OnMouseMove(int x, int y)
     if (!m_pressed) return;
     auto h_angle = m_camera.GetHAngle();
     auto v_angle = m_camera.GetVAngle();
-    gl::Log(boost::format("mouse: dx: %1% dy:%2%") % delta.x % delta.y);
+    // gl::Log(boost::format("mouse: dx: %1% dy:%2%") % delta.x % delta.y);
 
-    m_camera.SetRotation(v_angle - CAMERA_ROT_STEP * delta.y, 
+    m_camera.SetRotation(v_angle - CAMERA_ROT_STEP * delta.y,
                          h_angle - CAMERA_ROT_STEP * delta.x);
     h_angle = m_camera.GetHAngle();
     v_angle = m_camera.GetVAngle();
-    gl::Log(boost::format("rotation v: %1% h:%2%") % v_angle % h_angle);
+    // gl::Log(boost::format("rotation v: %1% h:%2%") % v_angle % h_angle);
 }
 
 void EventHandler::OnKeyboard(unsigned char key, int x, int y)
@@ -91,19 +91,27 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
         case 'f':
         case 'F':
-            camera_pos.z += kCameraStep;
+            camera_pos.x += kCameraStep;
             break;
         case 'h':
         case 'H':
-            camera_pos.z -= kCameraStep;
+            camera_pos.x -= kCameraStep;
             break;
         case 'g':
         case 'G':
-            camera_pos.x -= kCameraStep;
+            camera_pos.y -= kCameraStep;
             break;
         case 't':
         case 'T':
-            camera_pos.x += kCameraStep;
+            camera_pos.y += kCameraStep;
+            break;
+        case 'u':
+        case 'U':
+            camera_pos.z -= kCameraStep;
+            break;
+        case 'j':
+        case 'J':
+            camera_pos.z += kCameraStep;
             break;
         default:
             break;

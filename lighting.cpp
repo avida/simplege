@@ -1,7 +1,7 @@
 #include "lighting.hpp"
 #include "shader_factory.hpp"
 
-template <class T> 
+template <class T>
 void FillVector(T& vec, float x, float y, float z)
 {
 	vec.x = x;
@@ -18,21 +18,16 @@ Lighting::Lighting()
     m_lighting.ambientIntensity = shader_fact.GetUniformLocation("gDirectionalLight.AmbientIntensity");
 }
 
-void Lighting::SetAmbientColor(float x, float y, float z)
-{
-	FillVector(m_ambient_color, x, y, z);
-}
-
 void Lighting::SetDirection(float x, float y, float z)
 {
 	FillVector(m_diffuse_direction, x, y, z);
   m_diffuse_direction.Normalize();
 }
 
-void Lighting::ApplyLight()
+void Lighting::ApplyLight(const Vector3f& material_color)
 {
    glUniform3f(m_lighting.direction, m_diffuse_direction.x, m_diffuse_direction.y, m_diffuse_direction.z);
    glUniform1f(m_lighting.ambientIntensity, m_ambint_intens);
-   glUniform3f(m_lighting.color, m_ambient_color.x, m_ambient_color.y, m_ambient_color.z);
+   glUniform3f(m_lighting.color, material_color.x, material_color.y, material_color.z);
    glUniform1f(m_lighting.diffuseIntensity, m_diffuse_intens);
 }

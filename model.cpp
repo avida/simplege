@@ -10,6 +10,19 @@ Model::Model()
    m_trans = {0,0,0};
    m_rot = {0,0,0};
    m_scale = {1,1,1};
+   m_color = {0, 1, 0};
+}
+
+void Model::SetColorF(float r, float g, float b)
+{
+   m_color.x = r;
+   m_color.y = g;
+   m_color.z = b;
+}
+
+void Model::SetColor(int r, int g, int b)
+{
+   SetColorF((float)r / 255, (float)g/ 255, (float)b/255);
 }
 
 void Model::SetPosition(float x, float y, float z)
@@ -63,7 +76,7 @@ void Model::Render()
    auto mvp = camera.GetProjectionMatrix() *  camera_rotate * camera.GetTranslationMatrix() *  m;
    glUniformMatrix4fv(m_gWorld, 1, GL_TRUE, &m.m[0][0]);
    glUniformMatrix4fv(m_gWVP, 1, GL_TRUE, &mvp.m[0][0]);
-   shader_fact.GetLightingModel().ApplyLight();
+   shader_fact.GetLightingModel().ApplyLight(m_color);
 
    shader_fact.UseShader();
 }

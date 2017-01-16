@@ -5,8 +5,8 @@ Camera Camera::m_global_camera;
 
 Camera::Camera()
 {
-   SetPosition(-40, 0, 0);
-   SetRotation(0, 0);
+   SetPosition(0, 0, 10);
+   SetRotation(0, 90);
 }
 
 void Camera::SetPosition(float x, float y, float z) 
@@ -26,7 +26,7 @@ void Camera::SetRotation(float angleV, float angleH)
 
 void Camera::Update()
 {
-    const Vector3f Vaxis(0.0f, 1.0f, 0.0f);
+    static const Vector3f Vaxis(0.0f, 1.0f, 0.0f);
 
     // Rotate the view vector by the horizontal angle around the vertical axis
     Vector3f View(1.0f, 0.0f, 0.0f);

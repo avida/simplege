@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <GL/glew.h>
 #include <boost/shared_ptr.hpp>
@@ -19,12 +19,16 @@ public:
     void SetRotation(float rot_x, float rot_y, float rot_z);
     const Vector3f& GetRotation();
     void Render();
+    void SetColorF(float r, float g, float b);
+    void SetColor(int r, int g, int b);
 protected:
     GLuint m_gWVP;
     GLuint m_gWorld;
-    Vector3f m_scale = {1, 1, 1};
-    Vector3f m_trans = {};
-    Vector3f m_rot = {};
+    Vector3f m_scale;
+    Vector3f m_trans;
+    Vector3f m_rot;
+
+    Vector3f m_color;
 };
 
 typedef boost::shared_ptr<Model> ModelPtr; 

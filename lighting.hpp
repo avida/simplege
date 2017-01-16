@@ -9,15 +9,13 @@ class Lighting
 public:
 Lighting();
 
-void SetAmbientColor(float r, float g, float b);
 void SetAmbientIntensity(float intens) { m_ambint_intens = intens; }
 
 void SetDirection(float x, float y, float z);
 void SetDiffuseIntensity(float intens) { m_diffuse_intens = intens; }
 
-void ApplyLight();
-protected: 
-Vector3f m_ambient_color;
+void ApplyLight(const Vector3f& material_color);
+protected:
 float m_ambint_intens;
 
 struct {
