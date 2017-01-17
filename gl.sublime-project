@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+   "settings":
+   {
+      "default_line_ending": "unix",
+   },
+   "build_systems":
+   [
+        {
+            "name": "gl build",
+            "shell_cmd": "cd build && mingw32-make.exe  -j4 && simplegl"
+        }
+    ]
+}
