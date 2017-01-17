@@ -49,7 +49,8 @@ int main(int argc, char** argv)
         model_z->SetColorF(0, 0, x/10); //blue
     }
     auto plane = plane_factory->CreateModel();
-    plane->SetPosition(0,0,0);
+    plane->SetPosition(0,-1,0);
+    plane->SetScale(10,10,10);
     plane->SetColor(220, 220, 31);
     auto sky = sky_factory->CreateModel();
     sky->SetColor(80, 194, 206);
@@ -58,7 +59,14 @@ int main(int argc, char** argv)
     lighting.SetAmbientIntensity(.2 );
     lighting.SetDiffuseIntensity(1);
     lighting.SetDirection(1, 0, 0);
-    app.Run();
+    try
+    {
+        app.Run();
+    }
+    catch(const std::runtime_error&)
+    {
+        gl::Log("Exception catched");
+    }
     gl::Log("Bye");
     return 0;
 }

@@ -13,7 +13,6 @@ public:
     void OnMouseMove(int x, int y);
     void OnMouseButton(int button, int state, int x, int y);
 private:
-   ModelPtr m_model;
    float angle = .0f;
    float angle_z = .0f;
    bool m_pressed;

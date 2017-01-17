@@ -12,13 +12,7 @@
 const int kCameraStep = 1;
 
 EventHandler::EventHandler():m_camera(Camera::GetGlobalCamera()), m_pressed(false)
-{
-    m_model = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
-    m_model->SetScale(.5f, 1.f,1.f);
-    m_model->SetPosition(0, 0, 0);
-    // auto m2 = ModelFactoryManager::get_instance().GetFactory("sample")->CreateModel();
-    // m2->SetPosition(5.f,10,15.f);
-}
+{}
 
 void EventHandler::OnRender()
 {
@@ -53,9 +47,10 @@ void EventHandler::OnMouseMove(int x, int y)
 
 void EventHandler::OnKeyboard(unsigned char key, int x, int y)
 {
-    gl::Log(boost::format("key: %1% x:%2% y: %3%") % (int)key % x % y);
-    Vector3f pos = m_model->GetPosition();
+    // gl::Log(boost::format("key: %1% x:%2% y: %3%") % (int)key % x % y);
     auto camera_pos = m_camera.GetPosition();
+    const auto& camera_target = m_camera.GetTarget();
+    const auto& camera_up = m_camera.GetUp();
     switch(key)
     {
         case 27:
@@ -63,61 +58,27 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
         case 'a':
         case 'A':
-            if (!m_model) break;
-            angle += ROT_STEP;
-            // pos[0] -= .1f;
-            // m_model->SetScale(.5f, 2.f,0);
+            camera_pos += camera_target.Cross(camera_up);
             break;
         case 'd':
         case 'D':
-            if (!m_model) break;
-            angle -= ROT_STEP;
-            // pos[0] += .1f;
-            // m_model->SetScale(.5f, 2.f,0);
-            // m_model->SetPosition(-.5f,0.f,0);
+            camera_pos -= camera_target.Cross(camera_up);
             break;
         case 's':
         case 'S':
-            pos.z -= .1f;
-            angle_z += ROT_STEP;
+            camera_pos -= camera_target;
             break;
         case 'w':
         case 'W':
-                angle_z -= ROT_STEP;
-                pos.z += .1f;
+                camera_pos += camera_target;
             break;
-        case 'x':
-        case 'X':
-            break;
-        case 'f':
-        case 'F':
-            camera_pos.x += kCameraStep;
-            break;
-        case 'h':
-        case 'H':
-            camera_pos.x -= kCameraStep;
-            break;
-        case 'g':
-        case 'G':
-            camera_pos.y -= kCameraStep;
-            break;
-        case 't':
-        case 'T':
-            camera_pos.y += kCameraStep;
-            break;
-        case 'u':
-        case 'U':
-            camera_pos.z -= kCameraStep;
-            break;
-        case 'j':
-        case 'J':
-            camera_pos.z += kCameraStep;
+        case 'q':
+        case 'Q':
+            gl::LogFatal("Bye Bye");
             break;
         default:
             break;
     }
-    m_model->SetPosition(pos.x, pos.y, pos.z);
-    m_model->SetRotation(0.f,angle_z, angle);
     m_camera.SetPosition(camera_pos);
-    gl::Log(boost::format("pos: %1% %2% %3% \n camera_pos: %4% %5% %6%") % pos.x % pos.y % pos.z % camera_pos.x % camera_pos.y % camera_pos.z);
+    gl::Log(boost::format("camera_pos: %1% %2% %3%") % camera_pos.x % camera_pos.y % camera_pos.z);
 }

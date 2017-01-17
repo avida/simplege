@@ -43,6 +43,7 @@ template <class T>
 void LogFatal(const T& msg)
 {
     cout << RED_COLOR << msg << END_COLOR << endl;
+    // throw std::runtime_error("byebye");
     exit(0);
 }
 

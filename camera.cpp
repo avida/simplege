@@ -6,7 +6,7 @@ Camera Camera::m_global_camera;
 Camera::Camera()
 {
    SetPosition(0, 0, 10);
-   SetRotation(0, 90);
+   SetRotation(0, 0);
 }
 
 void Camera::SetPosition(float x, float y, float z) 
@@ -29,7 +29,7 @@ void Camera::Update()
     static const Vector3f Vaxis(0.0f, 1.0f, 0.0f);
 
     // Rotate the view vector by the horizontal angle around the vertical axis
-    Vector3f View(1.0f, 0.0f, 0.0f);
+    Vector3f View(0.0f, 0.0f, -1.0f);
     View.Rotate(m_angleH, Vaxis);
     View.Normalize();
 
