@@ -56,9 +56,9 @@ int main(int argc, char** argv)
     sky->SetColor(80, 194, 206);
     //Lighting
     auto& lighting = shader_fact.GetLightingModel();
-    lighting.SetAmbientIntensity(.2 );
+    lighting.SetAmbientIntensity(0.1);
     lighting.SetDiffuseIntensity(1);
-    lighting.SetDirection(1, 0, 0);
+    lighting.SetDirection(1, -0.5, -1);
     try
     {
         app.Run();

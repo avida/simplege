@@ -25,6 +25,13 @@ struct {
     GLuint direction;
 } m_lighting;
 
+struct
+{
+   GLuint power;
+   GLuint intensity;
+   GLuint cameraPos;
+} m_specular_light;
+
 Vector3f m_diffuse_direction;
 float m_diffuse_intens;
 };
