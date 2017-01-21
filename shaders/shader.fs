@@ -3,6 +3,7 @@
 out vec4 FragColor;
 in vec3 pos;
 in vec3 Normal0;
+in vec2 TextCoord;
 
 struct DirectionalLight
 {
@@ -21,6 +22,7 @@ struct SpecularLight
  
 uniform DirectionalLight gDirectionalLight;
 uniform SpecularLight gSpecularLight;
+uniform sampler2D gSampler; 
 
 void main()
 {
@@ -44,5 +46,5 @@ void main()
     else {
         DiffuseColor = vec4(0, 0, 0, 0);
     }
-    FragColor = (AmbientColor + DiffuseColor + SpecularColor);
+    FragColor = texture2D(gSampler, TextCoord.xy) * (AmbientColor + DiffuseColor + SpecularColor);
 }

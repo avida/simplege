@@ -10,6 +10,7 @@
 #include "event_handler.hpp"
 #include "model_factory_manager.hpp"
 #include "shader_factory.hpp"
+#include "texture.hpp"
 
 #include "utils/utils.hpp"
 #include "utils/logger.hpp"
@@ -27,6 +28,8 @@ int main(int argc, char** argv)
     app.CreateGLWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "simplegl");
     auto& shader_fact = ShaderFactory::get_instance();
     shader_fact.LoadShaders(vertexShaderFilePath, fragmentShaderFilePath);
+    auto& texture = Texture::get_instance();
+    texture.Load("texture.png");
 
     auto& camera = Camera::GetGlobalCamera();
     camera.SetProjectionParameters(30.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 100);

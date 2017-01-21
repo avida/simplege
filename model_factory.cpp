@@ -20,6 +20,7 @@ struct Vertex
 {
   Vector3f pos;
   Vector3f norm;
+  Vector2f texture;
 };
 
 void ModelFactory::LoadModel(const std::string& fname)
@@ -51,10 +52,6 @@ void ModelFactory::LoadModel(const std::string& fname)
           vertexes[i].norm.z = pNormal->z;
           // gl::Log(boost::format("x: %1% y: %2% z: %3%") % pNormal->x % pNormal->y% pNormal->z  ); 
       }
-      glGenBuffers(1, &m_VBO);
-      glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-      glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexes.size(), &vertexes[0], GL_STATIC_DRAW);
-
       std::vector<unsigned int> indices;
       indices.resize(mesh->mNumFaces * 3);
       for (auto i = 0 ; i < mesh->mNumFaces ; i++)
@@ -62,9 +59,16 @@ void ModelFactory::LoadModel(const std::string& fname)
             auto& face = mesh->mFaces[i];
             assert(face.mNumIndices == 3);
             indices[i*3] = face.mIndices[0];
+            vertexes[face.mIndices[0]].texture = {0, 0};
             indices[i*3 + 1] = face.mIndices[1];
+            vertexes[face.mIndices[1]].texture = {1, 0};
             indices[i*3 + 2] = face.mIndices[2];
+            vertexes[face.mIndices[2]].texture = {1, 1};
       }
+      glGenBuffers(1, &m_VBO);
+      glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+      glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexes.size(), &vertexes[0], GL_STATIC_DRAW);
+
       glGenBuffers(1, &m_IBO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int) , &indices[0], GL_STATIC_DRAW);
@@ -98,6 +102,7 @@ void ModelFactory::RenderModels()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
     glVertexAttribPointer(0/*attribute index*/,
                           3/*number of components in the attribute*/, 
                           GL_FLOAT /*data type */, 
@@ -105,7 +110,10 @@ void ModelFactory::RenderModels()
                           sizeof(Vertex) /* number of bytes between two instances of that 
                                          attribute in the bufferstride */,
                           0 /* attribute offset inside structure */);
+    // Normals
     glVertexAttribPointer(1, 3 ,GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)sizeof(Vector3f));
+    // Texture Coordinates
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(2 * sizeof(Vector3f)));
     for(auto model:m_models)
     {
       model->Render();
@@ -114,4 +122,7 @@ void ModelFactory::RenderModels()
                      0/*offset in bytes from the start of the index 
                         buffer to the location of the first index to scan*/);
     }
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }

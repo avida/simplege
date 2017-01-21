@@ -61,6 +61,9 @@ void Application::Run()
     glFrontFace(GL_CW);
     // glCullFace(GL_BACK);
     // glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    // glEnable(GL_CULL_FACE);
+
     glEnable(GL_DEPTH_TEST);
     InitHandler();
     // Assert(m_handler);

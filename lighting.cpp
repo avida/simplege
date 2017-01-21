@@ -36,7 +36,7 @@ void Lighting::ApplyLight(const Vector3f& material_color)
    glUniform3f(m_lighting.color, material_color.x, material_color.y, material_color.z);
    glUniform1f(m_lighting.diffuseIntensity, m_diffuse_intens);
 
-  glUniform1f(m_specular_light.power, 8);
+  glUniform1f(m_specular_light.power, 16);
   glUniform1f(m_specular_light.intensity, 2);
   auto camera_pos = Camera::GetGlobalCamera().GetPosition();
   glUniform3f(m_specular_light.cameraPos, camera_pos.x, camera_pos.y, camera_pos.z);

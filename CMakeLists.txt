@@ -9,13 +9,18 @@ include_directories(".",
                     "${LIBS_DIR}/freeglut/include", 
                     "${LIBS_DIR}/boost",
                     "${LIBS_DIR}/gmtl",
-                    "${LIBS_DIR}/assimp/include")
+                    "${LIBS_DIR}/assimp/include",
+                    "${LIBS_DIR}/png",
+                    "${LIBS_DIR}/zlib"
+                    )
 
 link_directories("${LIBS_DIR}/freeglut/src",
                  "${LIBS_DIR}/glew/lib",
                  "${LIBS_DIR}/boost/stage/lib",
                  "${LIBS_DIR}/assimp/build/code",
-                 "${LIBS_DIR}/png")
+                 "${LIBS_DIR}/png",
+                 "${LIBS_DIR}/zlib"
+                 )
 
 add_executable(simplegl 
                         main.cpp 
@@ -29,6 +34,8 @@ add_executable(simplegl
                         ./3rdParty/ogl/math_3d.cpp  
                         model.cpp
                         camera.cpp
-                        lighting.cpp)
+                        lighting.cpp
+                        libpng.cpp
+                        texture.cpp)
 
 target_link_libraries(simplegl freeglut glew32 opengl32 boost_system boost_filesystem assimp zlib png)
