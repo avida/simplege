@@ -13,7 +13,7 @@ void ModelFactoryManager::init_instance()
 }
 ModelFactoryPtr ModelFactoryManager::SetupFactory(const std::string& factoryName, 
                                                   const std::string& fileName,
-                                                  const std::string texture)
+                                                  const std::string& texture)
 {
    auto& factory_ptr = m_factories[factoryName];
    if (factory_ptr)

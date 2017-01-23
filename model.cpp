@@ -72,7 +72,7 @@ void Model::Render()
    rotate.InitRotateTransform(m_rot);
    scale.InitScaleTransform(m_scale);
    translate.InitTranslationTransform(m_trans);
-   auto m = translate *  rotate * scale;
+   auto m = translate * rotate * scale;
    auto mvp = camera.GetProjectionMatrix() *  camera_rotate * camera.GetTranslationMatrix() *  m;
    glUniformMatrix4fv(m_gWorld, 1, GL_TRUE, &m.m[0][0]);
    glUniformMatrix4fv(m_gWVP, 1, GL_TRUE, &mvp.m[0][0]);

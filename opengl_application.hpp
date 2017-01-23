@@ -18,4 +18,6 @@ private:
     static void MouseMoveCB(int x, int y);
     static void MouseButtonCB(int button, int state, int x, int y);
     static IHandlerPtr m_handler;    
+    static void FPSTimerCB(int val);
+    static int m_fps;
 };

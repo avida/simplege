@@ -7,6 +7,8 @@
 
 IHandlerPtr Application::m_handler  = IHandlerPtr();
 
+int Application::m_fps = 0;
+
 Application::Application(int& argc, char ** argv)
 {
    glutInit(&argc, argv);
@@ -28,6 +30,7 @@ void Application::CreateGLWindow(int h, int w, const std::string& title)
 void Application::Render()
 {
     m_handler->OnRender();
+    m_fps++;
 }
 
 void Application::KeyboardCB(unsigned char key, int x, int y)
@@ -45,6 +48,13 @@ void Application::MouseButtonCB(int button, int state, int x, int y)
     m_handler->OnMouseButton(button, state, x, y);   
 }
 
+void Application::FPSTimerCB(int val)
+{
+    gl::Log(boost::format("Fps: %1%") % m_fps);
+    m_fps = 0;
+    glutTimerFunc(1000, FPSTimerCB, 0);
+}
+
 void Application::InitHandler()
 {
     glutDisplayFunc(Render);
@@ -53,6 +63,7 @@ void Application::InitHandler()
     glutPassiveMotionFunc(MouseMoveCB);
     glutMotionFunc(MouseMoveCB);
     glutMouseFunc(MouseButtonCB);
+    // FPSTimerCB(0);
 }
 
 void Application::Run()
@@ -63,7 +74,6 @@ void Application::Run()
     // glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     // glEnable(GL_CULL_FACE);
-
     glEnable(GL_DEPTH_TEST);
     InitHandler();
     // Assert(m_handler);

@@ -12,7 +12,7 @@
 #include <assimp/postprocess.h>    // Post processing flags
 
 
-ModelFactory::ModelFactory(const std::string& fileName, const std::string texture)
+ModelFactory::ModelFactory(const std::string& fileName, const std::string& texture)
 {
   LoadModel(fileName, texture);
 }
@@ -24,7 +24,7 @@ struct Vertex
   Vector2f texture;
 };
 
-void ModelFactory::LoadModel(const std::string& fname, std::string texture)
+void ModelFactory::LoadModel(const std::string& fname,const std::string& texture)
 {
    if (m_VBO || m_IBO)
       return;

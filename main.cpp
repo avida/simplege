@@ -30,14 +30,14 @@ int main(int argc, char** argv)
     shader_fact.LoadShaders(vertexShaderFilePath, fragmentShaderFilePath);
 
     auto& camera = Camera::GetGlobalCamera();
-    camera.SetProjectionParameters(30.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1000);
+    camera.SetProjectionParameters(30.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 100);
     auto plane_factory = ModelFactoryManager::get_instance().SetupFactory("plane", "plane.obj", "box.png");
-    auto factory = ModelFactoryManager::get_instance().SetupFactory("sample", "model.obj", "texture.png");
+    auto factory = ModelFactoryManager::get_instance().SetupFactory("sample", "model.obj");
     auto sky_factory = ModelFactoryManager::get_instance().SetupFactory("sky", "sky.obj", "sky.png");
 
     auto handler = boost::make_shared<EventHandler>();
     app.SetHandler(handler);
-    for (double x = 1; x < 3; x++)
+    for (double x = 1; x < 50; x++)
     {
         auto model_x = factory->CreateModel();
         model_x->SetPosition(x, 0, 0);

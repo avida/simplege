@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
+
+SET(CMAKE_BUILD_TYPE "Debug")
 set (LIBS_DIR g:/libs)
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=gnu++11")
@@ -38,4 +40,4 @@ add_executable(simplegl
                         libpng.cpp
                         texture.cpp)
 
-target_link_libraries(simplegl freeglut glew32 opengl32 boost_system boost_filesystem assimp zlib png)
+target_link_libraries(simplegl freeglut glew32 opengl32 boost_system boost_filesystem assimp z png)

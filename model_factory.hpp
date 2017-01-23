@@ -16,9 +16,9 @@ public:
     ModelPtr CreateModel();
     void UtilizeModel(const ModelPtr& model);
     void RenderModels();
-    ModelFactory(const std::string& fileName, std::string texture);
+    ModelFactory(const std::string& fileName,const std::string& texture);
 private:
-    void LoadModel(const std::string& fileName, std::string texture);
+    void LoadModel(const std::string& fileName,const std::string& texture);
     ModelList m_models;
     GLuint m_VBO = 0;
     GLuint m_IBO = 0;
