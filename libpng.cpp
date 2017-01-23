@@ -77,6 +77,15 @@ int LibPng::Load()
    gl::Log(boost::format("color type is %d  ") % color_type);
    bit_depth = png_get_bit_depth(png_ptr, info_ptr);
 
+   if(color_type == PNG_COLOR_TYPE_RGB ||
+   color_type == PNG_COLOR_TYPE_GRAY ||
+   color_type == PNG_COLOR_TYPE_PALETTE)
+      png_set_filler(png_ptr, 0xFF, PNG_FILLER_AFTER);
+
+  if(color_type == PNG_COLOR_TYPE_GRAY ||
+     color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+      png_set_gray_to_rgb(png_ptr);
+
    number_of_passes = png_set_interlace_handling(png_ptr);
    png_read_update_info(png_ptr, info_ptr);
 
@@ -94,7 +103,7 @@ int LibPng::Load()
    lRowPtrs = new png_bytep[m_height];
    for(int i = 0; i < m_height; ++i)
    {
-     lRowPtrs[m_height - (i+1)] = row_pointers+ i * lRowSize;
+     lRowPtrs[m_height - (i+1)] = row_pointers + i * lRowSize;
    }
    png_read_image(png_ptr, lRowPtrs);
    fclose(fp);

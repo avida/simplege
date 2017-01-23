@@ -1,5 +1,6 @@
 #include "texture.hpp"
 #include "shader_factory.hpp"
+#include "utils/logger.hpp"
 
 Texture::Texture()
 {}
@@ -15,11 +16,6 @@ void Texture::Load(const std::string path)
    auto& shader_fact = ShaderFactory::get_instance();
    m_sampler = shader_fact.GetUniformLocation("gSampler");
 }  
-
-void Texture::init_instance()
-{
-
-}
 
 void Texture::Bind()
 {

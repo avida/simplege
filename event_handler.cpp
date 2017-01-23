@@ -80,5 +80,5 @@ void EventHandler::OnKeyboard(unsigned char key, int x, int y)
             break;
     }
     m_camera.SetPosition(camera_pos);
-    gl::Log(boost::format("camera_pos: %1% %2% %3%") % camera_pos.x % camera_pos.y % camera_pos.z);
+    // gl::Log(boost::format("camera_pos: %1% %2% %3%") % camera_pos.x % camera_pos.y % camera_pos.z);
 }

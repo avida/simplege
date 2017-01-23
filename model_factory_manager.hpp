@@ -9,7 +9,7 @@ class ModelFactoryManager : public generic::singleton<ModelFactoryManager>
 {
 friend generic::singleton<ModelFactoryManager>;
 public:
-   ModelFactoryPtr SetupFactory(const std::string& factoryName, const std::string& fileName);
+   ModelFactoryPtr SetupFactory(const std::string& factoryName, const std::string& fileName, const std::string texture = "");
    ModelFactoryPtr GetFactory(const std::string& factoryName);
    void FactoriesRender();
 protected:

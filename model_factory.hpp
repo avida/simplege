@@ -16,11 +16,13 @@ public:
     ModelPtr CreateModel();
     void UtilizeModel(const ModelPtr& model);
     void RenderModels();
-    ModelFactory(const std::string& fileName);
+    ModelFactory(const std::string& fileName, std::string texture);
 private:
-    void LoadModel(const std::string& fileName);
+    void LoadModel(const std::string& fileName, std::string texture);
     ModelList m_models;
     GLuint m_VBO = 0;
     GLuint m_IBO = 0;
     unsigned int m_indices;
+    TexturePtr m_texture;
+
 };

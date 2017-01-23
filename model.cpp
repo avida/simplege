@@ -1,7 +1,6 @@
 #include "model.hpp"
 #include "shader_factory.hpp"
 #include "camera.hpp"
-#include "texture.hpp"
 
 Model::Model()
 {
@@ -78,8 +77,5 @@ void Model::Render()
    glUniformMatrix4fv(m_gWorld, 1, GL_TRUE, &m.m[0][0]);
    glUniformMatrix4fv(m_gWVP, 1, GL_TRUE, &mvp.m[0][0]);
    shader_fact.GetLightingModel().ApplyLight(m_color);
-
-   auto& texture = Texture::get_instance();
-   texture.Bind();
    shader_fact.UseShader();
 }

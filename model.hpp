@@ -4,6 +4,7 @@
 #include <boost/shared_ptr.hpp>
 #include "utils/logger.hpp"
 #include "math_3d.hpp"
+#include "texture.hpp"
 
 class Model
 {
