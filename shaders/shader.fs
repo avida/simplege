@@ -19,10 +19,56 @@ struct SpecularLight
     vec3 cameraPos;
     float SpecularIntensity;
 };
- 
+
+PointLightAttenuation
+{
+    float Constant;
+    float Linear;
+    float Exp;
+};
+
+struct Light
+{
+    vec3 Color;
+    float DiffuseIntensity;
+    float AmbientIntensity;
+};
+
+stuct DirectionalLight
+{
+    vec3 Direction;  
+    Light m_light;
+};
+
+const int kMaxPointLights;
+
+struct PointLight
+{
+    Light m_light;
+    vec3 position;
+};
+
+
+uniform PointLight pointlights[kMaxPointLights];
+uniform int gPointlightsNumber;
+
 uniform DirectionalLight gDirectionalLight;
+uniform float gMatSpecularIntensity;
+uniform float gSpecularPower;
+
 uniform SpecularLight gSpecularLight;
 uniform sampler2D gSampler; 
+
+
+vec4 CalculateLight(Light lght, vec direction)
+{
+    
+}
+
+vec4 CelacuteDirectionalLight(Light lght)
+{
+    return CalculateLight(lght, )
+}
 
 void main()
 {
