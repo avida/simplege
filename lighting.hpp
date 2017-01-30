@@ -4,6 +4,8 @@
 #include <memory>
 #include <GL/glew.h>
 
+const int kMaxSpitLight = 5;
+
 class Lighting
 {
 public:
@@ -16,24 +18,47 @@ void SetDiffuseIntensity(float intens) { m_diffuse_intens = intens; }
 
 void ApplyLight(const Vector3f& material_color);
 protected:
-float m_ambint_intens;
 
-struct {
-    GLuint color;
-    GLuint ambientIntensity;
-    GLuint diffuseIntensity;
-    GLuint direction;
-} m_lighting;
-
-struct
+struct Light
 {
-   GLuint power;
-   GLuint intensity;
-   GLuint cameraPos;
-} m_specular_light;
+    GLuint glColor;
+    GLuint glDiffuseIntensity;
+    GLuint glAmbientIntensity;
 
-Vector3f m_diffuse_direction;
-float m_diffuse_intens;
+    Vector3f color;
+    float diffuse_intens;
+    float ambient_intens;
+};
+
+struct PointLightAttenuation
+{
+   GLuint glConstant;
+   GLuint glLinear;
+   GLuint glExp;
+
+   float constant;
+   float linear;
+   float exp;
+};
+
+struct DirectionalLight
+{
+   Light glLight;
+   GLuint glDirection;
+   Vector3f direction;
+};
+
+struct PointLight
+{
+   Light glLight;
+   GLuint glPosition;
+   Vector3f position;
+}
+
+DirectionalLight directional_light;
+PointLightAttenuation light_attenuation;
+std::vector<PointLight> point_lights;
+
 };
 
 typedef std::unique_ptr<Lighting> LightingPtr;
