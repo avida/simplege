@@ -25,7 +25,7 @@ struct DirectionalLight
     Light light;
 };
 
-const int kMaxPointLights = 0;
+const int kMaxPointLights = 1;
 
 struct PointLight
 {
@@ -40,25 +40,25 @@ struct SpecularLight
 
 };
 
-uniform PointLight pointlights[kMaxPointLights];
-uniform int gPointlightsNumber;
-
-uniform DirectionalLight gDirectionalLight;
-uniform SpecularLight gSpecularLight;
-uniform PointLightAttenuation gPointLightAttenuation;
-
-
 uniform vec3 cameraPos;
 uniform vec3 position;
-
+uniform SpecularLight gSpecularLight;
+uniform PointLightAttenuation gPointLightAttenuation;
+uniform DirectionalLight gDirectionalLight;
+uniform int gPointlightsNumber;
 uniform sampler2D gSampler; 
+uniform PointLight pointlights[kMaxPointLights];
+
+
+
+
 
 vec4 CalculateLight(Light lght, vec3 direction)
 {
     vec4 AmbientColor = vec4(lght.color * lght.ambientIntensity, 1.0f);
     float DiffuseFactor = dot(normalize(Normal0), -direction);
-    vec4 DiffuseColor;
-    vec4 SpecularColor;
+    vec4 DiffuseColor = vec4(0);
+    vec4 SpecularColor = vec4(0);
 
     if (DiffuseFactor > 0) {
         DiffuseColor = vec4(lght.color * lght.diffuseIntensity * DiffuseFactor, 1.0f);

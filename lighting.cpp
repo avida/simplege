@@ -12,32 +12,43 @@ void FillVector(T& vec, float x, float y, float z)
 
 Lighting::Lighting()
 {
-    auto& shader_fact = ShaderFactory::get_instance();
-    m_lighting.color = shader_fact.GetUniformLocation("gDirectionalLight.Color");
-    m_lighting.direction = shader_fact.GetUniformLocation("gDirectionalLight.Direction");
-    m_lighting.diffuseIntensity = shader_fact.GetUniformLocation("gDirectionalLight.DiffuseIntensity");
-    m_lighting.ambientIntensity = shader_fact.GetUniformLocation("gDirectionalLight.AmbientIntensity");
+   auto& shader_fact = ShaderFactory::get_instance();
 
-    m_specular_light.cameraPos = shader_fact.GetUniformLocation("gSpecularLight.cameraPos");
-    m_specular_light.power = shader_fact.GetUniformLocation("gSpecularLight.SpecularPower");
-    m_specular_light.intensity = shader_fact.GetUniformLocation("gSpecularLight.SpecularIntensity");
+   directional_light.glDirection =
+      shader_fact.GetUniformLocation("gDirectionalLight.direction");
+   directional_light.light.glDiffuseIntensity = 
+      shader_fact.GetUniformLocation("gDirectionalLight.light.diffuseIntensity");
+   directional_light.light.glAmbientIntensity = 
+      shader_fact.GetUniformLocation("gDirectionalLight.light.ambientIntensity");
+   directional_light.light.glColor =
+      shader_fact.GetUniformLocation("gDirectionalLight.light.color");
+
+   glCameraPos = shader_fact.GetUniformLocation("cameraPos");
+
+   specular_light.glPower = shader_fact.GetUniformLocation("gSpecularLight.power");
+   specular_light.glIntensity = shader_fact.GetUniformLocation("gSpecularLight.intensity");
 }
 
 void Lighting::SetDirection(float x, float y, float z)
 {
-	FillVector(m_diffuse_direction, x, y, z);
-  m_diffuse_direction.Normalize();
+	FillVector(directional_light.direction, x, y, z);
+  directional_light.direction.Normalize();
 }
 
 void Lighting::ApplyLight(const Vector3f& material_color)
 {
-   glUniform3f(m_lighting.direction, m_diffuse_direction.x, m_diffuse_direction.y, m_diffuse_direction.z);
-   glUniform1f(m_lighting.ambientIntensity, m_ambint_intens);
-   glUniform3f(m_lighting.color, material_color.x, material_color.y, material_color.z);
-   glUniform1f(m_lighting.diffuseIntensity, m_diffuse_intens);
+   glUniform3f(directional_light.glDirection, directional_light.direction.x, 
+                                              directional_light.direction.y,
+                                              directional_light.direction.z);
+   glUniform1f(directional_light.light.glAmbientIntensity, 
+                                              directional_light.light.glDiffuseIntensity);
+   glUniform1f(directional_light.light.glDiffuseIntensity, 
+                                              directional_light.light.diffuseIntensity);
+   
+   glUniform3f(directional_light.light.glColor, material_color.x, material_color.y, material_color.z);
 
-  glUniform1f(m_specular_light.power, 16);
-  glUniform1f(m_specular_light.intensity, 2);
+  glUniform1f(specular_light.glPower, 16);
+  glUniform1f(specular_light.glIntensity, 2);
   auto camera_pos = Camera::GetGlobalCamera().GetPosition();
-  glUniform3f(m_specular_light.cameraPos, camera_pos.x, camera_pos.y, camera_pos.z);
+  glUniform3f(glCameraPos, camera_pos.x, camera_pos.y, camera_pos.z);
 }

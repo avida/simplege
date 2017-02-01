@@ -2,6 +2,7 @@
 
 #include <math_3d.hpp>
 #include <memory>
+#include <vector>
 #include <GL/glew.h>
 
 const int kMaxSpitLight = 5;
@@ -9,15 +10,6 @@ const int kMaxSpitLight = 5;
 class Lighting
 {
 public:
-Lighting();
-
-void SetAmbientIntensity(float intens) { m_ambint_intens = intens; }
-
-void SetDirection(float x, float y, float z);
-void SetDiffuseIntensity(float intens) { m_diffuse_intens = intens; }
-
-void ApplyLight(const Vector3f& material_color);
-protected:
 
 struct Light
 {
@@ -26,8 +18,8 @@ struct Light
     GLuint glAmbientIntensity;
 
     Vector3f color;
-    float diffuse_intens;
-    float ambient_intens;
+    float diffuseIntensity;
+    float ambientIntensity;
 };
 
 struct PointLightAttenuation
@@ -43,7 +35,7 @@ struct PointLightAttenuation
 
 struct DirectionalLight
 {
-   Light glLight;
+   Light light;
    GLuint glDirection;
    Vector3f direction;
 };
@@ -53,11 +45,30 @@ struct PointLight
    Light glLight;
    GLuint glPosition;
    Vector3f position;
-}
+};
+
+struct SpecularLight
+{
+   GLuint glIntensity;
+   GLuint glPower;
+   float intensity;
+   float power;
+};
+
+Lighting();
+
+void SetDirectionalAmbientIntensity(float intens) { directional_light.light.ambientIntensity = intens; }
+void SetDirectionalDiffuseIntensity(float intens) { directional_light.light.diffuseIntensity = intens; }
+void SetDirection(float x, float y, float z);
+
+void ApplyLight(const Vector3f& material_color);
+protected:
 
 DirectionalLight directional_light;
+SpecularLight specular_light;
 PointLightAttenuation light_attenuation;
 std::vector<PointLight> point_lights;
+GLuint glCameraPos;
 
 };
 
