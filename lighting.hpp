@@ -60,6 +60,7 @@ Lighting();
 void SetDirectionalAmbientIntensity(float intens) { directional_light.light.ambientIntensity = intens; }
 void SetDirectionalDiffuseIntensity(float intens) { directional_light.light.diffuseIntensity = intens; }
 void SetDirection(float x, float y, float z);
+void SetPointLightAttenuation(float constant, float linear, float exp);
 
 void ApplyLight(const Vector3f& material_color);
 protected:

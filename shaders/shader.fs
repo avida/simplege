@@ -37,7 +37,6 @@ struct SpecularLight
 {
     float intensity;
     float power;
-
 };
 
 uniform vec3 cameraPos;
@@ -48,10 +47,6 @@ uniform DirectionalLight gDirectionalLight;
 uniform int gPointlightsNumber;
 uniform sampler2D gSampler; 
 uniform PointLight pointlights[kMaxPointLights];
-
-
-
-
 
 vec4 CalculateLight(Light lght, vec3 direction)
 {

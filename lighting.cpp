@@ -27,6 +27,17 @@ Lighting::Lighting()
 
    specular_light.glPower = shader_fact.GetUniformLocation("gSpecularLight.power");
    specular_light.glIntensity = shader_fact.GetUniformLocation("gSpecularLight.intensity");
+
+   light_attenuation.glConstant = shader_fact.GetUniformLocation("gPointLightAttenuation.Constant");
+   light_attenuation.glLinear = shader_fact.GetUniformLocation("gPointLightAttenuation.Linear");
+   light_attenuation.glExp = shader_fact.GetUniformLocation("gPointLightAttenuation.Exp");
+}
+
+void Lighting::SetPointLightAttenuation(float constant, float linear, float exp)
+{
+  light_attenuation.constant = constant;
+  light_attenuation.linear = linear;
+  light_attenuation.exp = exp;
 }
 
 void Lighting::SetDirection(float x, float y, float z)
@@ -41,7 +52,7 @@ void Lighting::ApplyLight(const Vector3f& material_color)
                                               directional_light.direction.y,
                                               directional_light.direction.z);
    glUniform1f(directional_light.light.glAmbientIntensity, 
-                                              directional_light.light.glDiffuseIntensity);
+                                              directional_light.light.ambientIntensity);
    glUniform1f(directional_light.light.glDiffuseIntensity, 
                                               directional_light.light.diffuseIntensity);
    
